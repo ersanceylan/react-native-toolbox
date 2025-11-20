@@ -24,10 +24,14 @@ export default function TurkeyMapSvgShowcase() {
           onProvincePress={setSelectedProvinceId}
           style={styles.map}
         />
+        <View style={styles.provinceNameContainer}>
+          {selectedProvince && (
+            <Text style={styles.provinceName}>
+              {selectedProvince?.id} - {selectedProvince?.name}
+            </Text>
+          )}
+        </View>
       </View>
-      <Text style={styles.provinceName}>
-        {selectedProvince?.id} - {selectedProvince?.name}
-      </Text>
 
       <Link
         style={styles.svgSourceLink}
@@ -75,5 +79,9 @@ const styles = StyleSheet.create({
     color: "blue",
     textDecorationLine: "underline",
     marginRight: 10,
+  },
+  provinceNameContainer: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
