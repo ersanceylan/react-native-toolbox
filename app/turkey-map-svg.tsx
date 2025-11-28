@@ -54,12 +54,11 @@ const styles = StyleSheet.create({
   },
   mapContainer: {
     width: "100%",
-    aspectRatio: 1000 / 422,
+    height: "auto",
   },
   map: {
     width: "100%",
     height: "auto",
-    aspectRatio: 1000 / 422,
   },
   provinceName: {
     fontSize: 20,

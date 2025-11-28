@@ -10,37 +10,86 @@ This project includes various ready-to-use components that you can integrate int
 
 #### Turkey Map SVG
 
+```
+<TurkeyMap
+   width={width}
+   height={(width * 422) / 1000}
+   selectedProvinceId={selectedProvinceId}
+   onProvincePress={setSelectedProvinceId}
+   style={{width: '100%', height: 'auto'}}
+/>
+```
+
 ![Turkey Map SVG](assets/videos/preview/1.gif)
 
+[svg source](https://simplemaps.com/svg/country/tr)
+
 #### Quick Menu Button
+
+```
+<QuickMenuButton buttonColor={"#000000"} itemColor={"#919191"} />
+```
 
 ![quick menu button](assets/videos/preview/2.gif)
 
 #### Animated Slider
 
+```
+<AnimatedSlider initialPosition={50} />
+```
+
 ![animated slider](assets/videos/preview/4.gif)
 
 #### QR Animation
 
+```
+<QrAnimation />
+```
+
 ![qr animation](assets/videos/preview/3.gif)
+
+#### Image Gallery
+
+```
+<Gallery
+   images={[
+      {
+      id: 1,
+      image:
+         "https://cdn.pixabay.com/photo/2023/05/01/18/06/windmill-7963566_1280.jpg",
+      alt: "photo 1",
+      },
+   ]}
+/>
+```
+
+![image gallery](assets/videos/preview/gallery.gif)
 
 ### Animated Text Effects
 
 #### Wave Effect
 
-![Turkey Map SVG](assets/videos/preview/8.gif)
+![wave](assets/videos/preview/8.gif)
 
 #### Moving Effect
 
-![Turkey Map SVG](assets/videos/preview/5.gif)
+![moving](assets/videos/preview/5.gif)
 
 #### Magnifying Effect
 
-![Turkey Map SVG](assets/videos/preview/7.gif)
+![magnifying](assets/videos/preview/7.gif)
 
 #### Randomized Effect
 
-![Turkey Map SVG](assets/videos/preview/6.gif)
+![randomized](assets/videos/preview/6.gif)
+
+#### Shining Effect
+
+![shining](assets/videos/preview/shining.gif)
+
+#### Sliding Effect
+
+![sliding](assets/videos/preview/sliding.gif)
 
 ## Getting Started
 

@@ -23,7 +23,7 @@ export const AnimatedSlider = ({
 }: {
   initialPosition: number;
 }) => {
-  const [percentageValue, setPercentageValue] = useState(0);
+  const [percentageValue, setPercentageValue] = useState(initialPosition);
 
   const [trackWidth, setTrackWidth] = useState(0);
 

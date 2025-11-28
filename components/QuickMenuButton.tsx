@@ -42,7 +42,13 @@ const ITEMS = [
   },
 ];
 
-export const QuickMenuButton = ({ color = "#c84f17" }: { color: string }) => {
+export const QuickMenuButton = ({
+  buttonColor = "#c84f17",
+  itemColor = "#d78484",
+}: {
+  buttonColor: string;
+  itemColor: string;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const scale = useSharedValue(1);
@@ -64,18 +70,27 @@ export const QuickMenuButton = ({ color = "#c84f17" }: { color: string }) => {
     <View style={styles.container}>
       <AnimatedPressable
         onPress={() => setIsOpen(true)}
-        style={[styles.menuButton, containerStyle, { backgroundColor: color }]}
+        style={[
+          styles.menuButton,
+          containerStyle,
+          { backgroundColor: buttonColor },
+        ]}
       >
         <MaterialCommunityIcons name="plus" size={50} color="white" />
       </AnimatedPressable>
 
       <Pressable onPress={() => setIsOpen(false)} style={[styles.closeButton]}>
-        <MaterialCommunityIcons name="close" size={50} color={color} />
+        <MaterialCommunityIcons name="close" size={50} color={buttonColor} />
       </Pressable>
 
       <View style={styles.itemsContainer}>
         {ITEMS.map((item, index) => (
-          <QuickMenuButtonItem key={item.label} index={index} isOpen={isOpen}>
+          <QuickMenuButtonItem
+            key={item.label}
+            index={index}
+            isOpen={isOpen}
+            itemColor={itemColor}
+          >
             <Text>{item.label}</Text>
           </QuickMenuButtonItem>
         ))}
@@ -88,10 +103,12 @@ export const QuickMenuButtonItem = ({
   children,
   index,
   isOpen,
+  itemColor,
 }: {
   children: React.ReactNode;
   index: number;
   isOpen: boolean;
+  itemColor: string;
 }) => {
   const totalSpan = 180; // degrees from 270 to 90
   const step = ITEMS.length > 1 ? totalSpan / (ITEMS.length - 1) : 0;
@@ -134,7 +151,13 @@ export const QuickMenuButtonItem = ({
   }));
 
   return (
-    <Animated.View style={[styles.quickMenuButtonItem, itemStyle]}>
+    <Animated.View
+      style={[
+        styles.quickMenuButtonItem,
+        itemStyle,
+        { backgroundColor: itemColor },
+      ]}
+    >
       {children}
     </Animated.View>
   );
@@ -192,7 +215,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: ITEM_SIZE,
     height: ITEM_SIZE,
-    backgroundColor: "#d78484",
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",

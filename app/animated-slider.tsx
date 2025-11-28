@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 export default function AnimatedSliderShowcase() {
   return (
     <View style={styles.container}>
-      <AnimatedSlider initialPosition={10} />
+      <AnimatedSlider initialPosition={50} />
     </View>
   );
 }

@@ -1,10 +1,10 @@
-import { QuickMenuButton } from "@/components/QuickMenuButton";
+import { SlideEffect } from "@/components/animatedText/SlideEffect";
 import { StyleSheet, View } from "react-native";
 
-export default function QuickMenuButtonShowcase() {
+export default function SlideEffectShowcase() {
   return (
     <View style={styles.container}>
-      <QuickMenuButton buttonColor={"#000000"} itemColor={"#919191"} />
+      <SlideEffect text="Hello, world!" />
     </View>
   );
 }
@@ -14,7 +14,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    width: "100%",
-    height: "100%",
   },
 });

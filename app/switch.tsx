@@ -1,10 +1,10 @@
-import { QuickMenuButton } from "@/components/QuickMenuButton";
+import { CustomSwitch } from "@/components/switch/CustomSwitch";
 import { StyleSheet, View } from "react-native";
 
-export default function QuickMenuButtonShowcase() {
+export default function SwitchShowcase() {
   return (
     <View style={styles.container}>
-      <QuickMenuButton buttonColor={"#000000"} itemColor={"#919191"} />
+      <CustomSwitch />
     </View>
   );
 }

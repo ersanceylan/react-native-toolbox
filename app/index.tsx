@@ -26,6 +26,12 @@ export default function Index() {
         <Link style={styles.link} href="/animated-slider">
           Animated Slider
         </Link>
+        <Link style={styles.link} href="/gallery">
+          Gallery
+        </Link>
+        <Link style={styles.link} href="/switch">
+          Switch
+        </Link>
       </View>
       <View style={styles.linksContainer}>
         <Text style={styles.linksContainerTitle}>Text Animations</Text>
@@ -40,6 +46,12 @@ export default function Index() {
         </Link>
         <Link style={styles.link} href="/text-animation/magnifying-effect">
           Magnifying Effect
+        </Link>
+        <Link style={styles.link} href="/text-animation/shining-effect">
+          Shining Effect
+        </Link>
+        <Link style={styles.link} href="/text-animation/slide-effect">
+          Slide Effect
         </Link>
       </View>
     </View>
