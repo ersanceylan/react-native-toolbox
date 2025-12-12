@@ -35,8 +35,11 @@ export default function Index() {
         <Link style={styles.link} href="/switch">
           Switch
         </Link>
-        {/* <Link style={styles.link} href="/loading">
-          Loading
+        <Link style={styles.link} href="/loading-bounce">
+          Loading Bounce
+        </Link>
+        {/* <Link style={styles.link} href="/loading-spinning">
+          Loading Spinning
         </Link> */}
       </View>
       <View style={styles.linksContainer}>

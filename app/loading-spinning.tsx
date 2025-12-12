@@ -1,7 +1,7 @@
-import { LoadingComponent } from "@/components/Loading";
+import { LoadingSpinning } from "@/components/LoadingSpinning";
 import { View } from "react-native";
 
-export default function Loading() {
+export default function LoadingSpinningPage() {
   return (
     <View
       style={{
@@ -12,7 +12,7 @@ export default function Loading() {
         alignItems: "center",
       }}
     >
-      <LoadingComponent />
+      <LoadingSpinning />
     </View>
   );
 }
