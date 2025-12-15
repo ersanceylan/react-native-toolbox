@@ -32,6 +32,9 @@ export default function Index() {
         <Link style={styles.link} href="/radial-gallery">
           Radial Gallery
         </Link>
+        <Link style={styles.link} href="/product-gallery">
+          Product Gallery
+        </Link>
         <Link style={styles.link} href="/switch">
           Switch
         </Link>

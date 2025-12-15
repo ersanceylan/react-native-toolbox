@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function RootLayout() {
   return (
     <SafeAreaView
+      edges={["left", "right"]}
       style={[StyleSheet.absoluteFillObject, { backgroundColor: "#000000" }]}
     >
       <StatusBar translucent barStyle={"light-content"} />

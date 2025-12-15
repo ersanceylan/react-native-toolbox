@@ -41,7 +41,6 @@ export const RadialGallery = ({
       if (Math.abs(event.translationX) < SCREEN_WIDTH / 8) return;
       const direction = translation.value < 0 ? "right" : "left";
       // console.log("direction", direction);
-      console.log("translation", translation.value);
       const step = clamp(
         Math.round(Math.abs(translation.value)),
         0,
@@ -69,7 +68,6 @@ export const RadialGallery = ({
         style={{
           width: "100%",
           height: "100%",
-          // backgroundColor: "#888888",
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -80,7 +78,6 @@ export const RadialGallery = ({
               flexDirection: "row",
               width: "100%",
               height: "100%",
-              // overflow: "hidden",
               justifyContent: "center",
               alignItems: "center",
             }}
