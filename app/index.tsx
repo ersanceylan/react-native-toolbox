@@ -41,6 +41,9 @@ export default function Index() {
         <Link style={styles.link} href="/loading-bounce">
           Loading Bounce
         </Link>
+        <Link style={styles.link} href="/counter">
+          Counter
+        </Link>
         {/* <Link style={styles.link} href="/loading-spinning">
           Loading Spinning
         </Link> */}

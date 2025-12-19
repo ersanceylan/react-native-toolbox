@@ -40,10 +40,9 @@ export const ProductGallery = ({ products }: { products: Product[] }) => {
         },
       ]}
     >
-      {/* container */}
 
       {products.map((p: Product, index: number) => (
-        <ProductComponent product={p} />
+        <ProductComponent key={`${p.id}-${index}`} product={p} />
       ))}
     </GestureHandlerRootView>
   );

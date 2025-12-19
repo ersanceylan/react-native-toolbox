@@ -32,15 +32,9 @@ export const CustomSwitch = ({
   const colorProgress = useSharedValue(value ? 1 : 0);
 
   useEffect(() => {
-    if (isOn) {
-      colorProgress.value = withTiming(1, {
-        duration: 1000,
-      });
-    } else {
-      colorProgress.value = withTiming(0, {
-        duration: 1000,
-      });
-    }
+    colorProgress.value = withTiming(isOn ? 1 : 0, {
+      duration: 1000,
+    });
 
     switchThumbWidth.value = withSequence(
       withTiming(
@@ -87,10 +81,6 @@ export const CustomSwitch = ({
         <Animated.View
           style={[styles.switchThumbBackground, switchThumbBackgroundStyle]}
         />
-        {/* <View style={styles.switchThumbTextContainer}>
-          <Text style={styles.switchThumb}>OFF</Text>
-          <Text style={styles.switchThumb}>ON</Text>
-        </View> */}
       </AnimatedPressable>
     </View>
   );
