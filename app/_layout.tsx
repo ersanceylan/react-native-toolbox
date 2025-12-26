@@ -14,7 +14,7 @@ export default function RootLayout() {
         screenOptions={{
           headerStyle: { backgroundColor: "#000000" },
           headerTitle: "React Native Tools",
-          headerTitleStyle: { color: "#ffffff" },
+          headerTitleStyle: { color: "#ffffff", },
           headerRight: () => (
             <Link href="/profile">
               <MaterialCommunityIcons name="link" size={24} color="white" />

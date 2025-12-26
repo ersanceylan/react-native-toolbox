@@ -38,6 +38,12 @@ export default function Index() {
         <Link style={styles.link} href="/switch">
           Switch
         </Link>
+        <Link style={styles.link} href="/switch-theme">
+          Switch Theme
+        </Link>
+        <Link style={styles.link} href="/switch-theme-light-bulb">
+          Switch Theme Light Bulb
+        </Link>
         <Link style={styles.link} href="/loading-bounce">
           Loading Bounce
         </Link>

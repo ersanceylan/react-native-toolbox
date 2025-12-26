@@ -1,10 +1,10 @@
-import { QuickMenuButton } from "@/components/QuickMenuButton";
+import { SwitchThemeBulb } from "@/components/switch/SwitchThemeLightBulb";
 import { StyleSheet, View } from "react-native";
 
-export default function QuickMenuButtonShowcase() {
+export default function SwitchThemeLightBulbShowcase() {
   return (
     <View style={styles.container}>
-      <QuickMenuButton />
+      <SwitchThemeBulb />
     </View>
   );
 }
@@ -16,6 +16,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     height: "100%",
-    backgroundColor: "#000",
   },
 });

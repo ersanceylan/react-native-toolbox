@@ -1,20 +1,30 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, {
   Easing,
+  interpolateColor,
+  ReduceMotion,
+  useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
   withSpring,
-  withTiming,
+  withTiming
 } from "react-native-reanimated";
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+const AnimatedIcon = Animated.createAnimatedComponent(MaterialCommunityIcons);
 
 const BUTTON_SIZE = 100;
 const ITEM_SIZE = BUTTON_SIZE / 2;
 const STARTING_ANGLE = 270;
+const TOTAL_SPAN_ANGLE = 180;
+const SPIN_COUNT = 2;
+
+const OPENING_DURATION = 500;
+const CLOSING_DURATION = 300;
+
 const ITEMS = [
   {
     label: "A",
@@ -43,123 +53,186 @@ const ITEMS = [
 ];
 
 export const QuickMenuButton = ({
-  buttonColor = "#c84f17",
-  itemColor = "#d78484",
+  buttonColor = "#008545",
+  itemColor = "#02351cff",
 }: {
-  buttonColor: string;
-  itemColor: string;
+  buttonColor?: string;
+  itemColor?: string;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const scale = useSharedValue(1);
+  const rotation = useSharedValue(0);
+  const buttonProgress = useSharedValue(0);
 
   useEffect(() => {
     if (isOpen) {
-      scale.value = withTiming(0.01, { duration: 1000, easing: Easing.ease });
+      rotation.value = withTiming(
+        (SPIN_COUNT * 360) + 45,
+        { duration: OPENING_DURATION, easing: Easing.ease }
+      );
+      buttonProgress.value = withTiming(1, {
+        duration: OPENING_DURATION,
+        easing: Easing.ease,
+      });
     } else {
-      scale.value = withTiming(1, { duration: 300, easing: Easing.ease });
+      rotation.value = withTiming(0,
+        { duration: CLOSING_DURATION, easing: Easing.ease }
+      );
+      buttonProgress.value = withTiming(0, {
+        duration: CLOSING_DURATION,
+        easing: Easing.ease,
+      });
     }
   }, [isOpen]);
 
+  const toggle = useCallback(() => {
+    setIsOpen(!isOpen);
+  }, [isOpen]);
+
   const containerStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
+    transform: [{ rotate: `${rotation.value}deg` }],
+    backgroundColor: interpolateColor(
+      buttonProgress.value,
+      [0, 1],
+      [buttonColor, "transparent"]
+    ),
     transformOrigin: "center",
+  }));
+
+  const animatedProps = useAnimatedProps(() => ({
+    color: interpolateColor(
+      buttonProgress.value,
+      [0, 1],
+      [itemColor, buttonColor]
+    )
   }));
 
   return (
     <View style={styles.container}>
       <AnimatedPressable
-        onPress={() => setIsOpen(true)}
-        style={[
-          styles.menuButton,
-          containerStyle,
-          { backgroundColor: buttonColor },
-        ]}
+        onPress={toggle}
+        style={[styles.menuButton, containerStyle]}
       >
-        <MaterialCommunityIcons name="plus" size={50} color="white" />
+        <AnimatedIcon name="plus" size={50} animatedProps={animatedProps} />
       </AnimatedPressable>
 
-      <Pressable onPress={() => setIsOpen(false)} style={[styles.closeButton]}>
-        <MaterialCommunityIcons name="close" size={50} color={buttonColor} />
-      </Pressable>
 
       <View style={styles.itemsContainer}>
-        {ITEMS.map((item, index) => (
-          <QuickMenuButtonItem
-            key={item.label}
-            index={index}
-            isOpen={isOpen}
-            itemColor={itemColor}
-          >
-            <Text>{item.label}</Text>
-          </QuickMenuButtonItem>
-        ))}
+        {ITEMS.map((item, index) => {
+          const step = ITEMS.length > 1 ? TOTAL_SPAN_ANGLE / (ITEMS.length - 1) : 0;
+          const angleInRadians = (((STARTING_ANGLE + index * step) % 360) * Math.PI) / 180;
+
+          return (
+            <QuickMenuButtonItem
+              key={item.label}
+              index={index}
+              isOpen={isOpen}
+              buttonColor={buttonColor}
+              itemColor={itemColor}
+              angleInRadians={angleInRadians}
+            >
+              <Text style={{ color: itemColor }}>{item.label}</Text>
+            </QuickMenuButtonItem>
+          )
+        })}
       </View>
     </View>
   );
 };
 
+const SPRING_CONFIG = {
+  stiffness: 1620,
+  damping: 85,
+  mass: 5,
+  overshootClamping: false,
+  energyThreshold: 1e-12,
+  velocity: 0,
+  reduceMotion: ReduceMotion.System,
+}
 export const QuickMenuButtonItem = ({
   children,
   index,
   isOpen,
+  buttonColor,
   itemColor,
+  angleInRadians,
 }: {
   children: React.ReactNode;
   index: number;
   isOpen: boolean;
+  buttonColor: string;
   itemColor: string;
+  angleInRadians: number;
 }) => {
-  const totalSpan = 180; // degrees from 270 to 90
-  const step = ITEMS.length > 1 ? totalSpan / (ITEMS.length - 1) : 0;
-  const angleInDegrees = (STARTING_ANGLE + index * step) % 360;
-  const angleInRadians = (angleInDegrees * Math.PI) / 180;
 
   const xPosition = useSharedValue(0);
   const yPosition = useSharedValue(0);
+  const backgroundProgress = useSharedValue(0);
 
-  const DISTANCE_FROM_CENTER = ITEM_SIZE + 50;
+  const r = ITEM_SIZE + 50;
 
   useEffect(() => {
     if (isOpen) {
       xPosition.value = withDelay(
-        index * 100,
-        withSpring(Math.sin(angleInRadians) * DISTANCE_FROM_CENTER, {
-          damping: 20,
-          stiffness: 100,
-        })
+        index * 50,
+        withSpring(Math.sin(angleInRadians) * r, SPRING_CONFIG)
       );
       yPosition.value = withDelay(
-        index * 100,
-        withSpring(-(Math.cos(angleInRadians) * DISTANCE_FROM_CENTER), {
-          damping: 20,
-          stiffness: 100,
+        index * 50,
+        withSpring(-(Math.cos(angleInRadians) * r), SPRING_CONFIG)
+      );
+      backgroundProgress.value = withDelay(
+        index * 50,
+        withTiming(1, {
+          duration: OPENING_DURATION,
+          easing: Easing.ease,
         })
       );
     } else {
-      yPosition.value = withTiming(0, { duration: 300 });
-      xPosition.value = withTiming(0, { duration: 300 });
+      yPosition.value = withTiming(0, { duration: CLOSING_DURATION });
+      xPosition.value = withTiming(0, { duration: CLOSING_DURATION });
+      backgroundProgress.value = withTiming(0, { duration: CLOSING_DURATION });
     }
   }, [isOpen]);
+
+  const scaleProgress = useSharedValue(1);
+  const onPress = useCallback(() => {
+    scaleProgress.value = withTiming(1.2, {
+      duration: 100,
+      easing: Easing.exp,
+    }, () => {
+      scaleProgress.value = withTiming(1, {
+        duration: 100,
+        easing: Easing.exp,
+      });
+    });
+  }, []);
 
   const itemStyle = useAnimatedStyle(() => ({
     transform: [
       { translateX: xPosition.value },
       { translateY: yPosition.value },
+      { scale: scaleProgress.value },
     ],
+    backgroundColor: interpolateColor(
+      backgroundProgress.value,
+      [0, 1],
+      [itemColor, buttonColor]
+    ),
+    boxShadow: `0px 0px ${Math.abs(scaleProgress.value - 1) * 100}px 0px ${buttonColor}`,
     transformOrigin: "center",
   }));
 
   return (
-    <Animated.View
+    <AnimatedPressable
+      onPress={onPress}
       style={[
         styles.quickMenuButtonItem,
         itemStyle,
-        { backgroundColor: itemColor },
       ]}
     >
       {children}
-    </Animated.View>
+    </AnimatedPressable>
   );
 };
 
@@ -204,8 +277,6 @@ const styles = StyleSheet.create({
   },
   itemsContainer: {
     position: "absolute",
-    borderWidth: 1,
-    borderColor: "#2c3299",
     justifyContent: "center",
     alignItems: "center",
     overflow: "visible",
